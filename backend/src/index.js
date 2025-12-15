@@ -1,28 +1,19 @@
-import dotenv from "dotenv";   //which again help us to extract environment variables
+import dotenv from "dotenv";
+import app from "./app.js";
 import connectDB from "./config/database.js";
 
-dotenv.config({
-    path:'./.env'
-});  //tell it to stop ;
+dotenv.config({ path: "./.env" });
 
-const startServer = async () =>{
-    try {
-        await connectDB();
+const startServer = async () => {
+  try {
+    await connectDB();
 
-        app.on("error",(error) => {
-            console.log("ERROR",error);
-            throw error;
-        });
-
-        app.listen(process.env.PORT || 8000, () =>{
-            console.log(`Server is running on port : ${process.env.PORT}`);
-            
-        })
-    } catch (error) {
-        console.log(`Mongodb connection Failed!!`,err);
-        
-        
-    }
-}
+    app.listen(process.env.PORT || 8000, () => {
+      console.log(`Server running on port ${process.env.PORT}`);
+    });
+  } catch (error) {
+    console.log("Connecting to MongoDB...", error);
+  }
+};
 
 startServer();

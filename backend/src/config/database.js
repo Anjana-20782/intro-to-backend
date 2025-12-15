@@ -1,15 +1,20 @@
-import mongoose, { connection } from "mongoose"         //structure of a database
+import mongoose from "mongoose";
 
-const connectDB = async()=>{
+const connectDB = async () => {
+  try {
+    console.log("Connecting to MongoDB...");
+    
+    const connectionInstance = await mongoose.connect(
+      process.env.MONGODB_URI
+    );
 
-    try {
-        const coonectionInstance = await mongoose.connect(`${process.env.MONGODB_URI}`) //connect mongodb and mongodb_uri which we just root the .env file
-        console.log(`\n mongoDB connected !!! ${connectionInstance.connection.host}`);  //tell me the adress of the connectionInstance
-        
-    } catch (error) {
-        console.log("mongoDB connection Failed",error);
-        process.exit(1)  //when the whole process done this process gets exit in one to another task        
-    }
-}
+    console.log(
+      `MongoDB connected: ${connectionInstance.connection.host}`
+    );
+  } catch (error) {
+    console.log("MongoDB connection failed", error);
+    process.exit(1);
+  }
+};
 
 export default connectDB;
